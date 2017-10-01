@@ -26,8 +26,8 @@ public class Player : MonoBehaviour {
         {
             Vector2 direct = Input.mousePosition;
             this.speed = direct.x - startPos.x;
-            player.transform.position += new Vector3(speed * 0.001f, 0, 0);
-
+            player.transform.localPosition += new Vector3(speed * 0.001f, 0, 0);
+            Debug.Log(player.transform.position.x);
         }
     }
 }
