@@ -10,7 +10,10 @@ public class Player : MonoBehaviour {
     float speed = 0;
     public float jumpSpeed = 500f;
     public GameObject player;
-    int jumpCount = 1;
+    public int jumpCount = 1;
+    float maxDistance = 1.0f;
+    public bool cMove = false;
+    float playerDistance;
 
 	// Use this for initialization
 	void Start () {
@@ -20,38 +23,47 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        Move();
 
+        Ray ray = new Ray(player.transform.position, Vector3.down);
+        RaycastHit hit;
+
+        //着地判定
+        if (Physics.Raycast(ray,out hit,maxDistance))
+        {
+            float dis = hit.distance;
+            if (dis < 0.6f&&hit.collider.gameObject.tag == "Stage")
+            {
+                playerDistance = player.transform.position.z - hit.collider.gameObject.transform.position.z;
+                hit.collider.transform.root.gameObject.transform.position = new Vector3(hit.collider.transform.root.gameObject.transform.position.x, hit.collider.transform.root.gameObject.transform.position.y, hit.collider.transform.root.gameObject.transform.position.z + playerDistance);
+                jumpCount = 1;
+                //hit.collider.transform.root.gameObject.transform.position;
+            }
+            else jumpCount = 0;
+        }
+    }
+
+    void Move(){
+		//マウスがタッチされたポジションを取得
         if (Input.GetMouseButtonDown(0))
-        {
-            startPos = Input.mousePosition;
-        }
+		{
+            cMove = true;
+			startPos = Input.mousePosition;
 
+		}
+
+		//マウスが離されたポジションを取得
+		//マウスの移動距離を計算してPlayerのX座標にぶち込む
         if (Input.GetMouseButton(0))
-        {
-            Vector2 direct = Input.mousePosition;
-            this.speed = direct.x - startPos.x;
-            player.transform.position += new Vector3(speed * 0.001f, 0, 0);
-            // Debug.Log(player.transform.position.x);
-        }
+		{
+			Vector2 direct = Input.mousePosition;
+			this.speed = direct.x - startPos.x;
+			player.transform.position += new Vector3(speed * 0.001f, 0, 0);
+		}
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag=="Stage")
-        {
-            jumpCount = 1;
-        }
-
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        jumpCount = 0;
-    }
-
-    public void Jump(){
-        
-        if (jumpCount==1)
+    public void Jump() {
+        if (jumpCount == 1)
         {
             r.AddForce(Vector3.up * jumpSpeed);
         }

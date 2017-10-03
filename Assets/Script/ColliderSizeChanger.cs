@@ -7,6 +7,7 @@ public class ColliderSizeChanger: MonoBehaviour {
     BoxCollider b;
     public bool flag = false;
 
+
 	// Use this for initialization
 	void Start () {
         b = GetComponent<BoxCollider>();
