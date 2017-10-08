@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -49,6 +50,11 @@ public class Player : MonoBehaviour {
             }
             else jumpCount = 0;
         }
+
+        if (player.gameObject.transform.position.y<-10)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     void Move(){
@@ -85,4 +91,6 @@ public class Player : MonoBehaviour {
             Destroy(collision.gameObject);
         }
     }
+
+
 }
