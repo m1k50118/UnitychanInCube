@@ -14,13 +14,12 @@ public class Player : MonoBehaviour {
     float maxDistance = 1.0f;
     public bool cMove = false;
     float playerDistance;
+    public GameObject piller;
 
-	// Use this for initialization
-	void Start () {
+    void Start () {
         r = GetComponent<Rigidbody>();
 	}
 
-    // Update is called once per frame
     void Update()
     {
         Move();
@@ -35,7 +34,15 @@ public class Player : MonoBehaviour {
             if (dis < 0.6f&&hit.collider.gameObject.tag == "Stage")
             {
                 playerDistance = player.transform.position.z - hit.collider.gameObject.transform.position.z;
-                hit.collider.transform.root.gameObject.transform.position = new Vector3(hit.collider.transform.root.gameObject.transform.position.x, hit.collider.transform.root.gameObject.transform.position.y, hit.collider.transform.root.gameObject.transform.position.z + playerDistance);
+                //if (player.transform.position.z>piller.transform.position.z)
+               // {
+					hit.collider.transform.root.gameObject.transform.position = new Vector3(
+						hit.collider.transform.root.gameObject.transform.position.x,
+						hit.collider.transform.root.gameObject.transform.position.y,
+						hit.collider.transform.root.gameObject.transform.position.z + playerDistance
+					);
+                //}
+
                 jumpCount = 1;
                 //hit.collider.transform.root.gameObject.transform.position;
             }

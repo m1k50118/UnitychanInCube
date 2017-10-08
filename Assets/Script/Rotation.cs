@@ -16,8 +16,4 @@ public class Rotation : MonoBehaviour {
 	void Update () {
         
     }
-
-    public void Rotate(){
-       
-    }
 }
