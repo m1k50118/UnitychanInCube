@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
     public bool cMove = false;
     float playerDistance;
     public GameObject piller;
+    public bool keyVale = false;
 
     void Start () {
         r = GetComponent<Rigidbody>();
@@ -73,6 +74,15 @@ public class Player : MonoBehaviour {
         if (jumpCount == 1)
         {
             r.AddForce(Vector3.up * jumpSpeed);
+        }
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag =="Key")
+        {
+            keyVale = true;
+            Destroy(collision.gameObject);
         }
     }
 }
