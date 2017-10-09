@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class Player : MonoBehaviour {
 
@@ -17,8 +18,12 @@ public class Player : MonoBehaviour {
     float playerDistance;
     public GameObject piller;
     public bool keyVale = false;
+    public AudioClip jumpSe;
+    public AudioClip getKeySe;
+    private AudioSource audioSource;
 
     void Start () {
+        audioSource = GetComponent<AudioSource>();
         r = GetComponent<Rigidbody>();
 	}
 
@@ -53,7 +58,8 @@ public class Player : MonoBehaviour {
 
         if (player.gameObject.transform.position.y<-10)
         {
-            SceneManager.LoadScene(0);
+            //TimerHover.time = GetComponent<Timer>().timer;
+            SceneManager.LoadScene(1);
         }
     }
 
@@ -79,6 +85,8 @@ public class Player : MonoBehaviour {
     public void Jump() {
         if (jumpCount == 1)
         {
+            audioSource.clip = jumpSe;
+            audioSource.Play();
             r.AddForce(Vector3.up * jumpSpeed);
         }
     }
@@ -87,6 +95,8 @@ public class Player : MonoBehaviour {
     {
         if (collision.gameObject.tag =="Key")
         {
+            audioSource.clip = getKeySe;
+            audioSource.Play();
             keyVale = true;
             Destroy(collision.gameObject);
         }
